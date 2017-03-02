@@ -1,0 +1,43 @@
+{
+  "name": "ts-entities-example",
+  "version": "0.0.1",
+  "description": "Example of use 'ts-entities'.",
+  "bugs": {
+    "url": "https://github.com/francoagusto/entities-example/issues",
+    "email": "francoabarletta@gmail.com"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "shooter",
+    "typescript",
+    "entities",
+    "system",
+    "entity",
+    "component",
+    "components",
+    "composite",
+    "game",
+    "oop"
+  ],
+  "author": "Franco Barletta",
+  "homepage": "https://github.com/francoagusto/entities-example",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/francoagusto/entities-example.git"
+  },
+  "devDependencies": {
+    "bower-webpack-plugin": "^0.1.9",
+    "npm-install-webpack-plugin": "^4.0.4",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0",
+    "webpack": "^1.13.2"
+  },
+  "dependencies": {
+    "pixi.js": "^4.2.3",
+    "signals": "^1.0.0",
+    "ts-entities": "^0.0.12"
+  }
+}

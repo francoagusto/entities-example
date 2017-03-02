@@ -1,0 +1,10 @@
+/.vscode
+/.git
+/node_modules
+/typings
+/src
+.gitignore
+TODO.md
+tsconfig.json
+webpack.config.js
+.gitattributes

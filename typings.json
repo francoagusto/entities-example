@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "pixi.js": "registry:dt/pixi.js/v3#3.0.0+20170223151516",
+    "ts-entities": "npm:ts-entities",
+    "typescript-collections": "file:node_modules/typescript-collections/dist/lib/index.d.ts"
+  },
+  "globalDependencies": {
+    "js-signals": "registry:dt/js-signals#0.0.0+20160316155526"
+  }
+}
