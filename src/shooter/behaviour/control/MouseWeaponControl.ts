@@ -1,4 +1,4 @@
-import { IStageMouse } from './../../../render/IStageMouse';
+import { IMouseInteraction } from './../../../render/IMouseInteraction';
 import { Signal } from 'signals';
 import { TickBehaviour } from './../TickBehaviour';
 import { Point, DisplayObject, Container } from 'pixi.js';
@@ -34,16 +34,13 @@ export class MouseWeaponControl extends entity.AbstractComponent {
 
 
 	static TYPE: string = "MOUSE_CONTROL";
-	private static MOUSE_MOVE: string = "mousemove";
-	private static MOUSE_DOWN: string = "mousedown";
-	private static MOUSE_UP: string = "mouseup";
-	private static MOUSE_UP_OUTSIDE: string = "mouseupoutside";
+
 
 	private stage: Container;
 	private heroPosition: Point;
 	private tickSignal: Signal;
 
-	constructor(private mouseStage:IStageMouse) {
+	constructor(private stageInteraction:IMouseInteraction) {
 		super();
 	}
 
@@ -60,11 +57,11 @@ export class MouseWeaponControl extends entity.AbstractComponent {
 		this.stage = display.parent;
 		this.stage.interactive = true;
 
-		this.stage.on(MouseWeaponControl.MOUSE_MOVE, this.handleMouseMove, this);
-		this.stage.on(MouseWeaponControl.MOUSE_DOWN, this.handleMouseDown, this);
-		this.stage.on(MouseWeaponControl.MOUSE_UP, this.handleMouseUp, this);
-		this.stage.on(MouseWeaponControl.MOUSE_UP_OUTSIDE, this.handleMouseUp, this);
-
+		this.stageInteraction.onMouseMove.add(this.handleMouseMove, this);
+		this.stageInteraction.onMouseDown.add(this.handleMouseDown, this);
+		this.stageInteraction.onMouseUp.add(this.handleMouseUp, this);
+		this.stageInteraction.onMouseUpOutside.add(this.handleMouseUp, this);
+		
 		this.heroPosition = this.owner.callCallback(PositionBehaviour.GET_POSITION_CALLBACK);
 		var onPositionChanged: Signal = this.owner.getRegistredReference<Signal>(PositionBehaviour.ON_POSITION_CHANGED_PROPERTY);
 		onPositionChanged.add(this.updateAngle, this);
@@ -90,7 +87,7 @@ export class MouseWeaponControl extends entity.AbstractComponent {
 	}
 
 	private updateAngle(value: number = 0): void {
-		var mousePoint:Point = new Point(this.mouseStage.mousePosition.x, this.mouseStage.mousePosition.y);
+		var mousePoint:Point = new Point(this.stageInteraction.mousePosition.x, this.stageInteraction.mousePosition.y);
 		var dx: number = (this.heroPosition.x - mousePoint.x);
 		var dy: number = (this.heroPosition.y - mousePoint.y);
 		var angle: number = Math.atan2(dy, dx) * (180 / Math.PI) - 180;
@@ -99,10 +96,10 @@ export class MouseWeaponControl extends entity.AbstractComponent {
 	}
 
 	destroy(): void {
-		this.stage.off(MouseWeaponControl.MOUSE_MOVE, this.handleMouseMove, this);
-		this.stage.off(MouseWeaponControl.MOUSE_DOWN, this.handleMouseDown, this);
-		this.stage.off(MouseWeaponControl.MOUSE_UP, this.handleMouseUp, this);
-		this.stage.off(MouseWeaponControl.MOUSE_UP_OUTSIDE, this.handleMouseUp, this);
+		this.stageInteraction.onMouseMove.remove(this.handleMouseMove, this);
+		this.stageInteraction.onMouseDown.remove(this.handleMouseDown, this);
+		this.stageInteraction.onMouseUp.remove(this.handleMouseUp, this);
+		this.stageInteraction.onMouseUpOutside.remove(this.handleMouseUp, this);
 		this.stage = null;
 		super.destroy();
 	}

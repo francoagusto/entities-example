@@ -1,4 +1,4 @@
-define(["require", "exports", "signals", "pixi.js"], function (require, exports, signals_1, pixi_js_1) {
+define(["require", "exports", "./StageInteraction", "signals", "pixi.js"], function (require, exports, StageInteraction_1, signals_1, pixi_js_1) {
     "use strict";
     var Application = (function () {
         function Application(width, height) {
@@ -10,14 +10,8 @@ define(["require", "exports", "signals", "pixi.js"], function (require, exports,
             document.body.appendChild(this.renderer.view);
             this.animateHandler = this.animate.bind(this);
             this.animateHandler.call(this);
+            this.stageIteraction = new StageInteraction_1.StageInteraction(this.stage, this.renderer);
         }
-        Object.defineProperty(Application.prototype, "mousePosition", {
-            get: function () {
-                return this.renderer.plugins.interaction.mouse.global;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Application.prototype.animate = function () {
             requestAnimationFrame(this.animateHandler);
             this.renderer.render(this.stage);

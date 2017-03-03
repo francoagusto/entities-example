@@ -1,4 +1,4 @@
-import { IStageMouse } from './../../render/IStageMouse';
+import { IMouseInteraction } from './../../render/IMouseInteraction';
 import { FollowEntityBehaviour } from './../behaviour/FollowEntityBehaviour';
 import { MouseWeaponControl } from './../behaviour/control/MouseWeaponControl';
 import { BulletsBuilder } from './BulletsBuilder';
@@ -35,7 +35,7 @@ import { IEntity, Entity } from "ts-entities";
 
 export class CharacterBuilder {
 	private static instance: CharacterBuilder;
-	mouseStage: IStageMouse;
+	mouseStage: IMouseInteraction;
 
 	static getInstance(): CharacterBuilder {
 		if (this.instance == null) {

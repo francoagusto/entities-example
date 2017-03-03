@@ -1,4 +1,4 @@
-import { IStageMouse } from './../render/IStageMouse';
+import { IMouseInteraction } from './../render/IMouseInteraction';
 import { Signal } from 'signals';
 import { CollisionBehaviour } from './behaviour/CollisionBehaviour';
 import { CollisionManager } from './manager/CollisionManager';
@@ -39,7 +39,7 @@ export class Game {
 	private updater: Updater;
 	private gameModel: GameModel = GameModel.getInstance();
 
-	constructor(private stage: Container, private width:number, private height:number, private tickSignal:Signal, private mouseStage:IStageMouse) {
+	constructor(private stage: Container, private width: number, private height: number, private tickSignal: Signal, private stageMouseInteraction: IMouseInteraction) {
 		this.stage = stage || new Container();
 		this.gameModel.stageWidth = this.width;
 		this.gameModel.stageHeight = this.height;
@@ -52,12 +52,10 @@ export class Game {
 	private setupManagers(): void {
 		var componentRegister: entity.ComponentRegister = new entity.ComponentRegister();
 
-		
 		//setup Managers
 		var viewManager: ViewManager = new ViewManager();
 
 		this.updater = new Updater(this.tickSignal);
-
 		this.stage.addChild(viewManager.getDisplay());
 
 		componentRegister.registerComponentManager(DefaultView.TYPE, viewManager);
@@ -80,7 +78,7 @@ export class Game {
 	private buildEntities(): void {
 		//Build player
 		var entityBuilder: CharacterBuilder = CharacterBuilder.getInstance();
-		entityBuilder.mouseStage= this.mouseStage;
+		entityBuilder.mouseStage = this.stageMouseInteraction;
 
 		var hero: entity.IEntity = entityBuilder.createCharacter(CharacterBuilder.HERO, Math.floor(this.gameModel.stageWidth / 2), Math.floor(this.gameModel.stageHeight / 2));
 		var enemySpawner: EnemySpawner = new EnemySpawner(20000, hero);
