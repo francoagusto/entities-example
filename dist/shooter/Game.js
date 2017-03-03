@@ -1,12 +1,12 @@
 define(["require", "exports", "./behaviour/CollisionBehaviour", "./manager/CollisionManager", "./builder/BulletsBuilder", "./builder/CharacterBuilder", "./spawn/EnemySpawner", "./behaviour/TickBehaviour", "./manager/TickManager", "./behaviour/view/DefaultView", "./manager/ViewManager", "./model/GameModel", "./../updater/Updater", "pixi.js", "ts-entities"], function (require, exports, CollisionBehaviour_1, CollisionManager_1, BulletsBuilder_1, CharacterBuilder_1, EnemySpawner_1, TickBehaviour_1, TickManager_1, DefaultView_1, ViewManager_1, GameModel_1, Updater_1, pixi_js_1, entity) {
     "use strict";
     var Game = (function () {
-        function Game(stage, width, height, tickSignal, mouseStage) {
+        function Game(stage, width, height, tickSignal, stageMouseInteraction) {
             this.stage = stage;
             this.width = width;
             this.height = height;
             this.tickSignal = tickSignal;
-            this.mouseStage = mouseStage;
+            this.stageMouseInteraction = stageMouseInteraction;
             this.gameModel = GameModel_1.GameModel.getInstance();
             this.stage = stage || new pixi_js_1.Container();
             this.gameModel.stageWidth = this.width;
@@ -32,7 +32,7 @@ define(["require", "exports", "./behaviour/CollisionBehaviour", "./manager/Colli
         };
         Game.prototype.buildEntities = function () {
             var entityBuilder = CharacterBuilder_1.CharacterBuilder.getInstance();
-            entityBuilder.mouseStage = this.mouseStage;
+            entityBuilder.mouseStage = this.stageMouseInteraction;
             var hero = entityBuilder.createCharacter(CharacterBuilder_1.CharacterBuilder.HERO, Math.floor(this.gameModel.stageWidth / 2), Math.floor(this.gameModel.stageHeight / 2));
             var enemySpawner = new EnemySpawner_1.EnemySpawner(20000, hero);
             this.updater.registerUpdatable(enemySpawner);

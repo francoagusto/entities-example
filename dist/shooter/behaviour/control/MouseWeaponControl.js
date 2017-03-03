@@ -7,9 +7,9 @@ define(["require", "exports", "./../TickBehaviour", "pixi.js", "./../weapon/Defa
     "use strict";
     var MouseWeaponControl = (function (_super) {
         __extends(MouseWeaponControl, _super);
-        function MouseWeaponControl(mouseStage) {
+        function MouseWeaponControl(stageInteraction) {
             var _this = _super.call(this) || this;
-            _this.mouseStage = mouseStage;
+            _this.stageInteraction = stageInteraction;
             return _this;
         }
         MouseWeaponControl.prototype.getDependencies = function () {
@@ -22,10 +22,10 @@ define(["require", "exports", "./../TickBehaviour", "pixi.js", "./../weapon/Defa
             var display = this.owner.getRegistredReference(DefaultView_1.DefaultView.DISPLAY_REFRENCE);
             this.stage = display.parent;
             this.stage.interactive = true;
-            this.stage.on(MouseWeaponControl.MOUSE_MOVE, this.handleMouseMove, this);
-            this.stage.on(MouseWeaponControl.MOUSE_DOWN, this.handleMouseDown, this);
-            this.stage.on(MouseWeaponControl.MOUSE_UP, this.handleMouseUp, this);
-            this.stage.on(MouseWeaponControl.MOUSE_UP_OUTSIDE, this.handleMouseUp, this);
+            this.stageInteraction.onMouseMove.add(this.handleMouseMove, this);
+            this.stageInteraction.onMouseDown.add(this.handleMouseDown, this);
+            this.stageInteraction.onMouseUp.add(this.handleMouseUp, this);
+            this.stageInteraction.onMouseUpOutside.add(this.handleMouseUp, this);
             this.heroPosition = this.owner.callCallback(PositionBehaviour_1.PositionBehaviour.GET_POSITION_CALLBACK);
             var onPositionChanged = this.owner.getRegistredReference(PositionBehaviour_1.PositionBehaviour.ON_POSITION_CHANGED_PROPERTY);
             onPositionChanged.add(this.updateAngle, this);
@@ -46,17 +46,17 @@ define(["require", "exports", "./../TickBehaviour", "pixi.js", "./../weapon/Defa
         };
         MouseWeaponControl.prototype.updateAngle = function (value) {
             if (value === void 0) { value = 0; }
-            var mousePoint = new pixi_js_1.Point(this.mouseStage.mousePosition.x, this.mouseStage.mousePosition.y);
+            var mousePoint = new pixi_js_1.Point(this.stageInteraction.mousePosition.x, this.stageInteraction.mousePosition.y);
             var dx = (this.heroPosition.x - mousePoint.x);
             var dy = (this.heroPosition.y - mousePoint.y);
             var angle = Math.atan2(dy, dx) * (180 / Math.PI) - 180;
             this.owner.callCallback(PositionBehaviour_1.PositionBehaviour.SET_ANGLE_CALLBACK, angle);
         };
         MouseWeaponControl.prototype.destroy = function () {
-            this.stage.off(MouseWeaponControl.MOUSE_MOVE, this.handleMouseMove, this);
-            this.stage.off(MouseWeaponControl.MOUSE_DOWN, this.handleMouseDown, this);
-            this.stage.off(MouseWeaponControl.MOUSE_UP, this.handleMouseUp, this);
-            this.stage.off(MouseWeaponControl.MOUSE_UP_OUTSIDE, this.handleMouseUp, this);
+            this.stageInteraction.onMouseMove.remove(this.handleMouseMove, this);
+            this.stageInteraction.onMouseDown.remove(this.handleMouseDown, this);
+            this.stageInteraction.onMouseUp.remove(this.handleMouseUp, this);
+            this.stageInteraction.onMouseUpOutside.remove(this.handleMouseUp, this);
             this.stage = null;
             _super.prototype.destroy.call(this);
         };
@@ -64,9 +64,5 @@ define(["require", "exports", "./../TickBehaviour", "pixi.js", "./../weapon/Defa
     }(entity.AbstractComponent));
     exports.MouseWeaponControl = MouseWeaponControl;
     MouseWeaponControl.TYPE = "MOUSE_CONTROL";
-    MouseWeaponControl.MOUSE_MOVE = "mousemove";
-    MouseWeaponControl.MOUSE_DOWN = "mousedown";
-    MouseWeaponControl.MOUSE_UP = "mouseup";
-    MouseWeaponControl.MOUSE_UP_OUTSIDE = "mouseupoutside";
 });
 //# sourceMappingURL=MouseWeaponControl.js.map
