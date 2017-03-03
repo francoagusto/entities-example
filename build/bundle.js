@@ -58,7 +58,7 @@
 	            stageHitArea.drawRect(0, 0, this.app.width, this.app.height);
 	            stageHitArea.interactive = true;
 	            this.app.stage.addChild(stageHitArea);
-	            this.introText = new pixi_js_1.Text("Game controls:\n\tW, A, S and D,\n\tmouse move and left click\n\nClick to start", {
+	            this.introText = new pixi_js_1.Text("Game controls:\n\tW, A, S and D,\n\tmouse move and left click\n\ntscClick to start", {
 	                font: "20",
 	                fill: 0xFFFFFF,
 	                align: "center"
